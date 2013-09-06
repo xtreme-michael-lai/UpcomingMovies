@@ -45,7 +45,7 @@ public class MoviesService extends IntentService {
 		
 		Timer timer = new Timer();
 		TimerTask pullTask = new PullTask();
-		timer.scheduleAtFixedRate(pullTask, 0, 5000);
+		timer.scheduleAtFixedRate(pullTask, 0, 30000);
 	}
 	
 	private void pullMovies(int page) {
