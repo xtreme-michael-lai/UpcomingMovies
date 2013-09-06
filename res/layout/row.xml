@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="91dp"
+    android:padding="6dip" >
+    
+	<ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="61dp"
+        android:layout_height="fill_parent"
+        android:scaleType="fitStart"
+		android:adjustViewBounds="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@id/thumbnail"
+        android:gravity="center_vertical"
+        android:text="Name"
+        android:textColor="#EEEEEE"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/ratingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/thumbnail"
+        android:layout_alignLeft="@+id/title"
+        android:gravity="center_vertical"
+        android:text="Rated: "
+        android:textColor="#EEEEEE" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/title"
+        android:textColor="#EEEEEE"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/thumbnail"
+        android:layout_toRightOf="@+id/ratingLabel"
+        android:gravity="center_vertical"
+        android:text="Rating"
+        android:textColor="#EEEEEE" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/date"
+        android:layout_toLeftOf="@+id/date"
+        android:textColor="#EEEEEE"
+        android:text="In theaters: " />
+
+</RelativeLayout>
