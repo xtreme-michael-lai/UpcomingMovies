@@ -19,6 +19,8 @@ public class MainActivity extends ListActivity implements Receiver {
 
 	private Intent service;
 	private MoviesReceiver mReceiver;
+	List<String> movies;
+	private MoviesAdapter adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class MainActivity extends ListActivity implements Receiver {
 		
 		mReceiver = new MoviesReceiver(new Handler());
 		mReceiver.setReceiver(this);
+		movies  = new ArrayList<String>();
 		
 		service = new Intent(this, MoviesService.class);
 		service.putExtra("Receiver", mReceiver);
@@ -55,13 +58,18 @@ public class MainActivity extends ListActivity implements Receiver {
 			JSONObject jsonObject = new JSONObject(json);
 			JSONArray moviesArray = jsonObject.getJSONArray("movies");
 			
-			List<String> movies = new ArrayList<String>();
 			for(int i = 0; i < moviesArray.length(); i++) {
-				movies.add(moviesArray.getJSONObject(i).toString());
+				movies.add(0, moviesArray.getJSONObject(i).toString());
+				
 			}
 			
-			MoviesAdapter adapter = new MoviesAdapter(this, android.R.layout.simple_list_item_1, movies);
-			setListAdapter(adapter);
+			if(adapter == null) {
+				adapter = new MoviesAdapter(this, android.R.layout.simple_list_item_1, movies);
+				setListAdapter(adapter);
+			} else {
+				adapter.notifyDataSetChanged();
+			}
+			
 			
 		} catch(JSONException e) {
 			e.printStackTrace();

@@ -13,12 +13,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,15 +31,20 @@ public class MoviesAdapter extends ArrayAdapter<String> {
 	private List<String> movies;
 	private LayoutInflater inflater;
 	private ThumbnailManager thumbnailManager;
+	private Map<String, Drawable> thumbnailMap;
+	private Animation animation;
 	
 	public MoviesAdapter(Context context, int resource, List<String> movies) {
 		super(context, resource, movies);
-		
 		this.movies = movies;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.thumbnailManager = new ThumbnailManager();
+		this.thumbnailMap = new HashMap<String, Drawable>();
+		this.animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+		animation.setDuration(2000);
 	}
 	
+	@SuppressLint("NewApi")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(convertView == null) {
@@ -49,6 +57,7 @@ public class MoviesAdapter extends ArrayAdapter<String> {
 		ImageView thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
 		
 		String movie = movies.get(position);
+		boolean flag = false;
 		try {
 			JSONObject movieInfo = new JSONObject(movie);
 			String movieTitle = movieInfo.getString("title");
@@ -57,6 +66,7 @@ public class MoviesAdapter extends ArrayAdapter<String> {
 										.getString("theater");
 			String thumbnailUrl = movieInfo.getJSONObject("posters")
 										   .getString("thumbnail");
+			if(thumbnailMap.containsKey(thumbnailUrl)) flag = true;
 			
 			title.setText(movieTitle);
 			rating.setText(movieRating);
@@ -66,16 +76,11 @@ public class MoviesAdapter extends ArrayAdapter<String> {
 			e.printStackTrace();
 		}
 		
+		if(!flag) convertView.startAnimation(animation);
 		return convertView;
 	}
 
-	public class ThumbnailManager {
-		private Map<String, Drawable> thumbnailMap;
-		
-		public ThumbnailManager() {
-			thumbnailMap = new HashMap<String, Drawable>();
-		}
-		
+	public class ThumbnailManager {		
 		public class GetThumbnail extends AsyncTask<String, Void, Drawable> {
 			private ImageView imageView;
 			
