@@ -44,7 +44,6 @@ public class MoviesAdapter extends ArrayAdapter<String> {
 		animation.setDuration(2000);
 	}
 	
-	@SuppressLint("NewApi")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(convertView == null) {
